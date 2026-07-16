@@ -1,0 +1,88 @@
+{
+  "axes": {
+    "metric": [
+      {
+        "name": "x",
+        "resolution": 40
+      },
+      {
+        "name": "y",
+        "resolution": 40
+      },
+      {
+        "name": "z",
+        "resolution": 40
+      }
+    ]
+  },
+  "substrate": [
+    {
+      "medium": "organism_field",
+      "topology": "spatial",
+      "metric_binding": [
+        "x",
+        "y",
+        "z"
+      ],
+      "channels": [
+        {
+          "name": "traffic_heat",
+          "decay_rate": 0.012,
+          "diffusion": 0.03
+        },
+        {
+          "name": "inflammation",
+          "decay_rate": 0.025,
+          "diffusion": 0.02
+        },
+        {
+          "name": "heartbeat",
+          "decay_rate": 0.04,
+          "diffusion": 0.01
+        }
+      ]
+    }
+  ],
+  "coupling": {
+    "coupling_radius": 6.0,
+    "lock_threshold": 0.1,
+    "inflammation_deposit": 1.2,
+    "inflammation_spread": 3
+  },
+  "phase_coupling": {
+    "K": 0.7,
+    "settle_ticks": 10
+  },
+  "tick": {
+    "rate": 10,
+    "diffusion_first": true,
+    "deposit_first": true
+  },
+  "limits": {
+    "max_grid_volume": 262144
+  },
+  "convergence_groups": [
+    {
+      "name": "bounce_run",
+      "members": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "threshold": 0.85
+    }
+  ]
+}

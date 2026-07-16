@@ -14,6 +14,21 @@ A pre-registered five-hypothesis validation study of **Synchronization Resistanc
 
 The headline finding is the failure: human categorical labels (factual / creative / controversial / speculative) do **not** segment LLM disagreement. A category containing both SR=0.00 and SR=2.00 prompts cannot route anything. The instrument crosscuts human intuition — which is either its value or its problem. That's what we want argued about.
 
+## Check it yourself
+
+Every number above is derived from files in this repository. No engine, no API key, no GPU:
+
+```bash
+pip install numpy scipy
+python3 analysis/reproduce.py
+```
+
+It prints the whole scorecard in a few seconds. **[REPRODUCE.md](REPRODUCE.md)** explains what's
+in the box — and states the boundary plainly: we publish the derivation (R(K) → SR → the five
+tests), not the measurement that produced R(K). Those values are here as **inputs we're asking
+you to check, not outputs you can currently regenerate**. The substrate that ran the sweep is
+unreleased pending counsel review.
+
 ## Read it
 
 - **Paper (v0.2.4):** [`paper/`](paper/) in this repo · DOI [10.5281/zenodo.20495904](https://doi.org/10.5281/zenodo.20495904)
@@ -27,6 +42,8 @@ Six local models (mistral 7B, gemma3 12B, glm4-flash, jamba-reasoning, phi4, qwe
 ## We want critique
 
 This was built by a solo operator + AI collaborators, outside academia, on pre-registration discipline instead of institutional review. That means it has **not** been peer reviewed — you are the peer review. If the math is misapplied, the stats are underpowered, the Kuramoto framing is decoration, or the claims outrun the evidence — [open an issue](../../issues) or say it in [Discussions](../../discussions). Direct is better than polite.
+
+Everything you need to make any of those arguments is in this repo — the prompts, the raw measurements, and the derivation. Run it, break it, and tell us what you found.
 
 ## License
 

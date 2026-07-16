@@ -1,0 +1,21 @@
+{
+  "packet": {
+    "schema_version": 1,
+    "task": "Should developing nations be held to the same carbon emission standards as developed nations? Argue for or against, and state the strongest counterargument to your position.",
+    "inputs": {},
+    "constraints": [],
+    "settings": {
+      "peer_count": 6,
+      "bounce_setting": 20,
+      "invoke_peers": true,
+      "peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "glm4_flash",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    }
+  }
+}

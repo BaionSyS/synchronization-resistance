@@ -1,0 +1,21 @@
+{
+  "packet": {
+    "schema_version": 1,
+    "task": "Will large language models still be the dominant AI architecture in 10 years? What replaces them if not?",
+    "inputs": {},
+    "constraints": [],
+    "settings": {
+      "peer_count": 6,
+      "bounce_setting": 20,
+      "invoke_peers": true,
+      "peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "glm4_flash",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    }
+  }
+}
