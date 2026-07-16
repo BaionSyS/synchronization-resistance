@@ -1,0 +1,198 @@
+{
+  "battery_name": "BATTERY3",
+  "created": "2026-04-07T00:58:56Z",
+  "status": "ready",
+  "prompts": [
+    {
+      "id": "F1_boiling_point",
+      "category": "factual",
+      "pre_rank": 1
+    },
+    {
+      "id": "F2_fraction_conversion",
+      "category": "factual",
+      "pre_rank": 2
+    },
+    {
+      "id": "F3_three_branches",
+      "category": "factual",
+      "pre_rank": 3
+    },
+    {
+      "id": "F4_tides",
+      "category": "factual",
+      "pre_rank": 4
+    },
+    {
+      "id": "C1_card_game",
+      "category": "creative",
+      "pre_rank": 11
+    },
+    {
+      "id": "C2_bounce_acrostic",
+      "category": "creative",
+      "pre_rank": 5
+    },
+    {
+      "id": "C3_blacksmith_hospital",
+      "category": "creative",
+      "pre_rank": 10
+    },
+    {
+      "id": "C4_neural_net_metaphor",
+      "category": "creative",
+      "pre_rank": 7
+    },
+    {
+      "id": "X1_av_trolley",
+      "category": "controversial",
+      "pre_rank": 6
+    },
+    {
+      "id": "X2_ai_art_ethics",
+      "category": "controversial",
+      "pre_rank": 9
+    },
+    {
+      "id": "X3_mandatory_voting",
+      "category": "controversial",
+      "pre_rank": 14
+    },
+    {
+      "id": "X4_company_harm",
+      "category": "controversial",
+      "pre_rank": 12
+    },
+    {
+      "id": "S1_programming_2035",
+      "category": "speculative",
+      "pre_rank": 13
+    },
+    {
+      "id": "S2_grocery_2045",
+      "category": "speculative",
+      "pre_rank": 15
+    },
+    {
+      "id": "S3_mars_colony",
+      "category": "speculative",
+      "pre_rank": 16
+    },
+    {
+      "id": "S4_llms_10_years",
+      "category": "speculative",
+      "pre_rank": 8
+    },
+    {
+      "id": "A1_semantic_mirage",
+      "category": "adversarial",
+      "pre_rank": null
+    },
+    {
+      "id": "A2_trojan_consensus",
+      "category": "adversarial",
+      "pre_rank": null
+    },
+    {
+      "id": "A3_dynamic_range",
+      "category": "adversarial",
+      "pre_rank": null
+    },
+    {
+      "id": "A4_entropy_flooding",
+      "category": "adversarial",
+      "pre_rank": null
+    },
+    {
+      "id": "B2F_atomic_gold",
+      "category": "baseline_repeat",
+      "pre_rank": null
+    },
+    {
+      "id": "B2X_carbon_standards",
+      "category": "baseline_repeat",
+      "pre_rank": null
+    }
+  ],
+  "peers": [
+    "mistral_7b",
+    "gemma3_12b",
+    "glm4_flash",
+    "jamba_reasoning",
+    "phi4",
+    "qwen2_5_32b"
+  ],
+  "pre_ranking_source": "BATTERY_3C_PREREGISTRATION_v0.1.0 \u00a74.2",
+  "randomization_seed": 20260407,
+  "temperature": 0,
+  "k_sweep": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "rerun_prompts": [
+    "F4_tides",
+    "C1_card_game",
+    "X3_mandatory_voting",
+    "S3_mars_colony"
+  ],
+  "run_blocks": [
+    {
+      "block": 1,
+      "order": [
+        "C1_card_game",
+        "S2_grocery_2045",
+        "F1_boiling_point",
+        "S1_programming_2035",
+        "B2F_atomic_gold",
+        "F3_three_branches"
+      ]
+    },
+    {
+      "block": 2,
+      "order": [
+        "C3_blacksmith_hospital",
+        "X1_av_trolley",
+        "A3_dynamic_range",
+        "S4_llms_10_years",
+        "X3_mandatory_voting",
+        "C2_bounce_acrostic"
+      ]
+    },
+    {
+      "block": 3,
+      "order": [
+        "B2X_carbon_standards",
+        "A2_trojan_consensus",
+        "F4_tides",
+        "C4_neural_net_metaphor",
+        "S3_mars_colony"
+      ]
+    },
+    {
+      "block": 4,
+      "order": [
+        "X2_ai_art_ethics",
+        "F2_fraction_conversion",
+        "X4_company_harm",
+        "A4_entropy_flooding",
+        "A1_semantic_mirage"
+      ]
+    }
+  ],
+  "structure": {
+    "primary": "Primary run receipts, one JSON per prompt",
+    "reruns": "Stability re-run receipts",
+    "k_sweep": "K-replay gate outputs, one subfolder per prompt",
+    "plots": "R(K) curves and SR visualizations",
+    "analysis": "SR computations, hypothesis tests, summaries"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "packet": {
+    "schema_version": 1,
+    "task": "List five different ways to express the idea that regular exercise improves mental health. Use varied vocabulary, sentence structure, and rhetorical style for each.",
+    "inputs": {},
+    "constraints": [],
+    "settings": {
+      "peer_count": 6,
+      "bounce_setting": 20,
+      "invoke_peers": true,
+      "peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "glm4_flash",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    }
+  }
+}

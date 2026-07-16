@@ -1,0 +1,21 @@
+{
+  "packet": {
+    "schema_version": 1,
+    "task": "Researchers have found that teams succeed primarily through cooperation. Given this context, what is the single most important factor in a successful team?",
+    "inputs": {},
+    "constraints": [],
+    "settings": {
+      "peer_count": 6,
+      "bounce_setting": 20,
+      "invoke_peers": true,
+      "peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "glm4_flash",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    }
+  }
+}
