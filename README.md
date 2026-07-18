@@ -47,7 +47,12 @@ Everything you need to make any of those arguments is in this repo — the promp
 
 ## License
 
-Paper text: CC BY-NC-ND 4.0. Patent and trademark rights are not licensed under the CC license (CC BY-NC-ND 4.0 §2(b)(2)); methods described may be subject to pending or issued patents held by BAION Systems LLC or Steven A. Mullins Jr.
+- **Code** (reproduction scripts in `analysis/`): Apache License 2.0 — see [`LICENSE`](LICENSE).
+- **Paper text:** CC BY-NC-ND 4.0.
+
+Patent and trademark rights are not licensed under the CC license (CC BY-NC-ND 4.0 §2(b)(2)). The Apache-2.0 patent grant applies **only to the code in this repository** and does not extend to any other BAION methods, systems, or substrate; methods described may be subject to pending or issued patents held by BAION Systems LLC or Steven A. Mullins Jr.
+
+Copyright 2026 BAION Systems LLC.
 
 ## Cite
 
