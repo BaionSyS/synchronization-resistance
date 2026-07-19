@@ -74,11 +74,11 @@ A gate file is the unit of measurement — one prompt, one K, one rep:
 
 ## Provenance
 
-`analysis/reproduce.py` is the vault's own re-derivation receipt, written 2026-06-01 to
+`analysis/reproduce.py` is the original internal re-derivation receipt, written 2026-06-01 to
 settle a discovered defect: the published H3 MAE was 0.07 and re-derivation from the raw
 gates gave 0.04. The paper carries the correction, and this script is the artifact that
 found it. It is published here unchanged except for six lines rebinding absolute paths to
-repo-relative ones; a header comment in the file records the vault original's SHA-256 so
+repo-relative ones; a header comment in the file records the original's SHA-256 so
 the two can be diffed.
 
 `analysis/synchronization_resistance.py` is byte-identical to the frozen 2026-04-06 copy
