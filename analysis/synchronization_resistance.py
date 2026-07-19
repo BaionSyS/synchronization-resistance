@@ -226,7 +226,17 @@ if __name__ == "__main__":
         k_val = float(k_str)
 
         d = json.loads(f.read_text())
-        rv = d.get("r_values", [0, 0, 0])
+        # Fail closed: a missing or malformed r_values MUST abort, never silently
+        # become [0,0,0] — zero-substitution corrupts R0/α/SR without any signal.
+        rv = d.get("r_values")
+        if rv is None:
+            sys.exit(f"FAIL-CLOSED: {f} has no 'r_values' key; refusing to substitute zeros.")
+        if not isinstance(rv, list) or len(rv) != 3:
+            sys.exit(f"FAIL-CLOSED: {f} 'r_values' must be a 3-element list, got {rv!r}.")
+        try:
+            rv = [float(x) for x in rv]
+        except (TypeError, ValueError):
+            sys.exit(f"FAIL-CLOSED: {f} 'r_values' has a non-numeric entry: {rv!r}.")
 
         dim_data["conclusion"].append((k_val, rv[0]))
         dim_data["basis"].append((k_val, rv[1]))
