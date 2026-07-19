@@ -8,17 +8,17 @@ files using the frozen canonical SR functions, to settle the 0.04-vs-0.07 H3 MAE
 drift discovered 2026-06-01. Result: H1/H2/H4/H5 reproduce exactly; H3 MAE = 0.04
 (0.044, 3-rep mean), NOT the v0.1.0-published 0.07. See spec Amendment Record.
 
-WHY this lives in the vault (not /tmp): the defect being corrected is a
-reproducibility gap; the fix must itself be reproducible. Run on the box that
-has PROJ_CODE mounted: `python3 battery_3c_h1h5_rederivation_*.py`.
+WHY this is committed alongside the data (not run from a scratch dir): the
+defect being corrected is a reproducibility gap; the fix must itself be
+reproducible. Run from the repo root: `python3 analysis/reproduce.py`.
 """
 import json, glob, os, sys
 from collections import defaultdict
 import numpy as np
 
-# PUBLISHED COPY: the only change from the vault original is these six lines --
-# absolute PROJ_CODE paths rebound to repo-relative ones. The derivation below is
-# byte-identical. Vault original SHA-256:
+# PUBLISHED COPY: the only change from the internal original is these six lines --
+# absolute source-tree paths rebound to repo-relative ones. The derivation below is
+# byte-identical. Original SHA-256:
 #   0100ca71c7411042cafc35ed0ef0b2430e1fd4f1fce6371cf727f7f03c344910
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO, "analysis"))
