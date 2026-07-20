@@ -14,6 +14,8 @@ A pre-registered five-hypothesis validation study of **Synchronization Resistanc
 
 The headline finding is the failure: human categorical labels (factual / creative / controversial / speculative) do **not** segment LLM disagreement. A category containing both SR=0.00 and SR=2.00 prompts cannot route anything. The instrument crosscuts human intuition — which is either its value or its problem. That's what we want argued about.
 
+> **Data correction (2026-07-20):** four of the 66 sweep series had replayed a non-responding model as a zero-phase oscillator, reporting six members where five responded. The four series have been corrected in place (originals preserved in git history). Every disposition above is unchanged — H3's error tightens slightly, nothing flips. Full write-up: [**ADDENDUM_SR-01.md**](ADDENDUM_SR-01.md); machine-readable record: [`data/CORRECTION_SR-01.json`](data/CORRECTION_SR-01.json).
+
 ## Check it yourself
 
 Every number above is derived from files in this repository. No engine, no API key, no GPU:
