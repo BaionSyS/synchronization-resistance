@@ -44,9 +44,11 @@ INTERPRETATION
 
 ERROR PROPAGATION
 -----------------
-  Bootstrap: resample (K, R) pairs with replacement, recompute SR N times,
-  report percentile confidence interval. This captures uncertainty in both
-  R₀ and α without assuming Gaussian errors.
+  Residual bootstrap: K is a fixed design grid, so we resample the linear-fit
+  residuals onto the unchanged K grid (K=0 always present), refit, and recompute
+  SR N times, reporting a percentile CI. This captures uncertainty in R₀ and α
+  without assuming Gaussian errors and without altering the experimental design
+  (resampling (K, R) pairs would drop/duplicate design points, including K=0).
 
 TWO-POINT SHORTCUT
 ------------------
@@ -87,10 +89,7 @@ def compute_sr(r_values: list[tuple[float, float]], threshold: float = DEFAULT_T
     ks = np.array([k for k, r in r_values])
     rs = np.array([r for k, r in r_values])
 
-    # R₀ = R at K=0 (or interpolated)
-    r0 = rs[ks == 0.0][0] if 0.0 in ks else rs[0]
-
-    # Linear fit: R(K) = R₀ + α·K
+    # Linear fit first: R(K) = R₀ + α·K
     if len(ks) >= 2:
         coeffs = np.polyfit(ks, rs, 1)  # [slope, intercept]
         alpha = coeffs[0]
@@ -103,14 +102,25 @@ def compute_sr(r_values: list[tuple[float, float]], threshold: float = DEFAULT_T
         r_squared = 1 - ss_res / ss_tot if ss_tot > 0 else 0
     else:
         alpha = 0
-        r0_fit = r0
+        r0_fit = float(rs[0]) if len(rs) else 0.0
         r_squared = 0
+
+    # R₀ is DEFINED as R at K=0. Use the measured K=0 point when present;
+    # otherwise fall back to the fitted intercept — a principled extrapolation
+    # to K=0 (the docstring's "or interpolated"), never an arbitrary raw point.
+    # The old `rs[0]` fallback silently relabeled R at the first-listed K as if
+    # it were R₀ whenever no K=0 gate existed, corrupting SR with no signal.
+    # R0_is_measured records which path was taken so downstream never confuses
+    # a measured baseline with an extrapolated one.
+    has_k0 = bool((ks == 0.0).any())
+    r0 = float(rs[ks == 0.0][0]) if has_k0 else float(r0_fit)
 
     # Synchronization Resistance with edge case handling
     sr, status = _classify_sr(r0, alpha, threshold)
 
     result = {
         "R0": round(r0, 4),
+        "R0_is_measured": has_k0,
         "R0_fit": round(r0_fit, 4),
         "alpha": round(alpha, 4),
         "SR": round(sr, 4),
@@ -154,27 +164,38 @@ def _classify_sr(r0: float, alpha: float, threshold: float) -> tuple[float, str]
 def _bootstrap_ci(ks: np.ndarray, rs: np.ndarray, threshold: float,
                   confidence: float = 0.90) -> tuple[float, float]:
     """
-    Bootstrap confidence interval for SR.
+    Residual bootstrap confidence interval for SR.
 
-    Resamples (K, R) pairs with replacement, recomputes SR each time,
-    returns percentile CI. Uses 90% CI by default (5th–95th percentile).
+    K is a FIXED experimental design grid, not a random sample. Resampling
+    (K, R) pairs with replacement — the old approach — randomly dropped and
+    duplicated design points (frequently dropping K=0, which R₀ is defined at,
+    and then silently falling back to the min-K point) and distorted the
+    regression leverage, so the CI reflected a design that was never run.
+
+    Instead we resample the fit RESIDUALS with replacement and add them back at
+    the ORIGINAL fixed K grid, refit, and recompute SR. Every K — including
+    K=0 — is present in every resample; only the measurement noise is
+    resampled. Uses 90% CI by default (5th–95th percentile).
     """
     rng = np.random.default_rng(42)  # Reproducible
     n = len(ks)
+
+    # R₀ is defined at K=0; without a measured K=0 gate an honest SR CI cannot
+    # be formed (the point estimate falls back to the fitted intercept, but
+    # bootstrapping that would understate uncertainty). Signal, don't fake it.
+    if n < 2 or not bool((ks == 0.0).any()):
+        return (0.0, SR_MAX)
+
+    coeffs = np.polyfit(ks, rs, 1)
+    fitted = np.polyval(coeffs, ks)
+    resid = rs - fitted
     sr_samples = []
 
     for _ in range(BOOTSTRAP_N):
-        idx = rng.integers(0, n, size=n)
-        ks_b = ks[idx]
-        rs_b = rs[idx]
-
-        # Need at least 2 unique K values for a fit
-        if len(np.unique(ks_b)) < 2:
-            continue
-
-        r0_b = rs_b[ks_b == 0.0][0] if 0.0 in ks_b else rs_b[np.argmin(ks_b)]
-        coeffs_b = np.polyfit(ks_b, rs_b, 1)
-        alpha_b = coeffs_b[0]
+        # Fixed design: resample residuals onto the unchanged K grid.
+        rs_b = fitted + resid[rng.integers(0, n, size=n)]
+        r0_b = rs_b[ks == 0.0][0]  # K grid fixed → K=0 always present
+        alpha_b = np.polyfit(ks, rs_b, 1)[0]
 
         sr_b, _ = _classify_sr(r0_b, alpha_b, threshold)
         sr_samples.append(sr_b)
@@ -226,7 +247,17 @@ if __name__ == "__main__":
         k_val = float(k_str)
 
         d = json.loads(f.read_text())
-        rv = d.get("r_values", [0, 0, 0])
+        # Fail closed: a missing or malformed r_values MUST abort, never silently
+        # become [0,0,0] — zero-substitution corrupts R0/α/SR without any signal.
+        rv = d.get("r_values")
+        if rv is None:
+            sys.exit(f"FAIL-CLOSED: {f} has no 'r_values' key; refusing to substitute zeros.")
+        if not isinstance(rv, list) or len(rv) != 3:
+            sys.exit(f"FAIL-CLOSED: {f} 'r_values' must be a 3-element list, got {rv!r}.")
+        try:
+            rv = [float(x) for x in rv]
+        except (TypeError, ValueError):
+            sys.exit(f"FAIL-CLOSED: {f} 'r_values' has a non-numeric entry: {rv!r}.")
 
         dim_data["conclusion"].append((k_val, rv[0]))
         dim_data["basis"].append((k_val, rv[1]))

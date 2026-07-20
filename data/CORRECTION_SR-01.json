@@ -1,0 +1,61 @@
+{
+  "defect_id": "SR-01",
+  "title": "Failed peer replayed as a sixth zero-phase oscillator",
+  "affected_series": [
+    {
+      "series": "rep1/A3_dynamic_range",
+      "dropped_peer": [
+        "glm4_flash"
+      ],
+      "valid_peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    },
+    {
+      "series": "rep2/A3_dynamic_range",
+      "dropped_peer": [
+        "glm4_flash"
+      ],
+      "valid_peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    },
+    {
+      "series": "rep3/A3_dynamic_range",
+      "dropped_peer": [
+        "glm4_flash"
+      ],
+      "valid_peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    },
+    {
+      "series": "rep2/C3_blacksmith_hospital",
+      "dropped_peer": [
+        "glm4_flash"
+      ],
+      "valid_peers": [
+        "mistral_7b",
+        "gemma3_12b",
+        "jamba_reasoning",
+        "phi4",
+        "qwen2_5_32b"
+      ]
+    }
+  ],
+  "unaffected_series_note": "The other 62 of 66 series are unchanged (all six peers responded).",
+  "method": "Re-ran the canonical k_replay.sh through the real field engine + convergence gate, excluding ok:false peers before phase_deposit (5 valid oscillators instead of 6).",
+  "disposition": "Headline scorecard preserved (H1/H2/H4 unchanged, H3 MAE 0.0438->0.0433, H5 still fails). No status flips; not a retraction."
+}

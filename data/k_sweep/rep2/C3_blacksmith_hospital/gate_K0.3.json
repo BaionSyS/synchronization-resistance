@@ -1,1 +1,1 @@
-{"decision":"PASS","diagnosis":"Full Convergence","r_values":[0.885152,0.735183,0.926731],"thresholds":[0.85,0.7,0.6],"group_id":0,"tick":26,"member_count":6}
+{"decision":"BLOCK","diagnosis":"Basis Divergence","r_values":[0.921541,0.688006,0.989254],"thresholds":[0.85,0.7,0.6],"group_id":0,"tick":36,"member_count":5}
